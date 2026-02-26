@@ -24,6 +24,7 @@ Use this skill as a rulebook for building and migrating PHP backend components f
 - Use strict typing (`declare(strict_types=1)`) in all new files.
 - Do not add comments unless the user explicitly asks.
 - Follow the Criteria pattern for all repository queries.
+- Access model data via getter methods, not direct property access (see `rules/model-getters.md`).
 - Commits follow pattern: `TNIT-####: description`.
 
 ## Output Expectations

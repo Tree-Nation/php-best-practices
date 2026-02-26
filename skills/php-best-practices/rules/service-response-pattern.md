@@ -46,3 +46,13 @@ final class GetHashtagsServiceResponse implements JsonSerializable
 - Keep the class `final` and immutable (no setters).
 - Provide named accessor methods (e.g., `items()`) alongside `jsonSerialize()`.
 - Location: `src/API/[Domain]/Application/Services/[Action]ServiceResponse.php`.
+- **No extra spaces for alignment** in array keys. Use a single space around `=>`:
+  ```php
+  // correct
+  'id' => $this->id,
+  'title' => $this->title,
+
+  // wrong — do not pad keys to align values
+  'id'    => $this->id,
+  'title' => $this->title,
+  ```

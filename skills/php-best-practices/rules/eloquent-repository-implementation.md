@@ -49,3 +49,13 @@ final class EloquentHashtagRepository extends EloquentRepository implements Hash
 - Return a typed `Collection<int, ModelClass>` with a `@var` cast.
 - Location: `src/API/[Domain]/Infrastructure/Persistence/Eloquent[Domain]Repository.php`.
 - Register the binding in `TreeNationProvider` after creating this class.
+- **Always start queries with `Model::query()`** instead of calling static methods like `Model::where()` or `Model::findOrFail()` directly. This gives PHPStan a proper `Builder` type and avoids the need for `// @phpstan-ignore-next-line`:
+  ```php
+  // correct
+  return Action::query()->findOrFail($id);
+  return Action::query()->where('habit_id', $habitId)->where('active', true)->get();
+
+  // wrong — triggers PHPStan errors on magic static calls
+  return Action::findOrFail($id);       // @phpstan-ignore-next-line required
+  return Action::where('habit_id', $habitId)->get();
+  ```
