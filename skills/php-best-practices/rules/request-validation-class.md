@@ -72,3 +72,4 @@ public function __invoke(GetHabitActionsRequest $request): JsonResponse
 - No business logic in `rules()`.
 - **Never sanitise input inside the controller** (no `preg_replace`, `strip_tags`, etc.). Express all constraints as validation rules in the `FormRequest` instead.
 - Route parameters must also be validated through a `FormRequest`, not cast or sanitised inline in the controller method signature.
+- **If a custom validation closure (e.g., checking that an image URL belongs to allowed domains) could apply to more than one request type, extract it to a domain service or a custom `Rule` class** — do not duplicate the closure across multiple `FormRequest` classes.
