@@ -26,6 +26,21 @@ final class Action extends Model
 }
 ```
 
+For relationships, use typed getter methods rather than relying on dynamic properties or `getAttribute()`:
+
+```php
+// app/Models/Action.php
+public function getOwner(): ?User
+{
+    return $this->owner instanceof User ? $this->owner : null;
+}
+
+public function getHabit(): ?Habit
+{
+    return $this->habit instanceof Habit ? $this->habit : null;
+}
+```
+
 Then access via the getter in services and response objects:
 
 ```php
@@ -35,11 +50,16 @@ return new GetActionDetailResponse(
     title: $action->title(),
     description: $action->description(),
 );
+
+$owner = $action->getOwner();
+$habit = $action->getHabit();
 ```
 
 ## Checklist
 
 - **Do not access model properties directly** (e.g. `$action->id`, `$action->title`) inside services or response constructors.
+- **Do not call `->getAttribute()`** directly in services or response objects — use typed getter methods instead.
 - Use getter methods or Eloquent `Attribute` accessors instead.
+- For relationship objects, define a typed getter (e.g. `getOwner(): ?User`) that returns the related model with the correct type, rather than using `->getAttribute('owner')`.
 - If the model does not yet have a getter for the property you need, add one before using it.
 - This applies when building response objects, DTOs, and any other place where model data is mapped to another structure.
